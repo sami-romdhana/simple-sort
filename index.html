@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Inter:300,400&display=swap"
+      rel="stylesheet"
+    />
+    <link href="style.css" rel="stylesheet" />
+    <title>Simple sort</title>
+  </head>
+  <body>
+    <h1>Simple sort</h1>
+
+    <p>Enter items, one per line</p>
+
+    <div contenteditable id="input"></div>
+
+    <div>
+      <button id="start">Sort</button>
+    </div>
+
+    <div id="form" class="form hidden">
+      <div class="form--modal">
+        <p>Which is better?</p>
+
+        <div class="form--exhibits">
+          <div id="a"></div>
+          <div id="b"></div>
+        </div>
+
+        <div class="form--actions form--sort-actions">
+          <button data-value="1" class="sort-good">A</button>
+          <button data-value="0">Neither</button>
+          <button data-value="-1" class="sort-bad">B</button>
+        </div>
+
+        <div class="form--actions form--modal-actions">
+          <button id="undo">Undo</button>
+          <button id="stop">Stop</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="main.js"></script>
+  </body>
+</html>

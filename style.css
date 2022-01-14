@@ -1,0 +1,159 @@
+:root {
+  --font: "Inter", sans-serif;
+
+  --color-background: #fafafa;
+  --color-text: #222;
+  --color-foreground: #eee;
+  --color-border: #ccc;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: rgb(41, 41, 41);
+    --color-text: rgb(255, 255, 255);
+    --color-foreground: rgb(53, 53, 53);
+    --color-border: rgb(95, 95, 95);
+  }
+}
+
+*,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+button {
+  font-family: var(--font);
+  letter-spacing: -0.02em;
+}
+
+button,
+input,
+pre {
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+html {
+  font-size: 18px;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  text-align: center;
+}
+
+body {
+  margin: 20px auto;
+  max-width: 800px;
+}
+
+h1 {
+  margin-bottom: 10px;
+  font-weight: 300;
+  font-size: 56px;
+  letter-spacing: -0.07em;
+}
+
+h1 + p {
+  margin-bottom: 20px;
+}
+
+#input {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: var(--color-foreground);
+  border: 1px solid var(--color-border);
+  color: inherit;
+  font-family: monospace;
+  min-height: 32px;
+  text-align: left;
+}
+
+#input:empty:after {
+  content: "Example: First item\AThird item\ASecond item";
+  white-space: pre;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+#input + div {
+  margin: 20px auto;
+  text-align: center;
+}
+
+#form {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
+}
+
+#form.hidden {
+  display: none;
+}
+
+#form > div {
+  padding: 20px;
+  max-width: calc(100% - 40px);
+  width: 500px;
+  border-radius: 3px;
+  background-color: var(--color-background);
+  box-shadow: 0 0 30px -15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.form--modal > :not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.form--exhibits {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 4em;
+  align-items: center;
+}
+
+.form--exhibits img {
+  width: 100%;
+  max-height: 350px;
+  object-fit: cover;
+}
+
+.form--sorting-actions {
+  font-size: 1.3em;
+}
+
+button {
+  color: #444;
+  background: #fafafa;
+  padding: 0.4em 0.8em;
+  border: none;
+  border-radius: 0.2em;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.2) inset;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: transform 0.1s;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+button.sort-good {
+  color: white;
+  background-color: rgb(0, 104, 202);
+}
+
+button.sort-bad {
+  color: white;
+  background-color: rgb(14, 173, 0);
+}
