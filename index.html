@@ -14,7 +14,7 @@
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔃</text></svg>"
     />
     <link
-      href="https://fonts.googleapis.com/css?family=Inter:300,400&display=swap"
+      href="https://fonts.googleapis.com/css?family=Inter:400,900&display=swap"
       rel="stylesheet"
     />
     <link href="style.css" rel="stylesheet" />
@@ -32,24 +32,17 @@
     </div>
 
     <div id="form" class="form hidden">
-      <div class="form--modal">
-        <p>Which is better?</p>
+      <p>Which is better?</p>
 
-        <div class="form--exhibits">
-          <div id="a"></div>
-          <div id="b"></div>
-        </div>
+      <div class="form--exhibits">
+        <div data-value="1" id="a"></div>
+        <div data-value="-1" id="b"></div>
+      </div>
 
-        <div class="form--actions form--sort-actions">
-          <button data-value="1" class="sort-good">A</button>
-          <button data-value="0">Neither</button>
-          <button data-value="-1" class="sort-bad">B</button>
-        </div>
-
-        <div class="form--actions form--modal-actions">
-          <button id="undo">Undo</button>
-          <button id="stop">Stop</button>
-        </div>
+      <div class="form--modal-actions">
+        <button id="undo">Undo</button>
+        <button data-value="0">Neither</button>
+        <button id="stop">Stop</button>
       </div>
     </div>
 

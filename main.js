@@ -36,9 +36,7 @@ const undoButton = document.querySelector("#undo");
 const stopButton = document.querySelector("#stop");
 const aSide = document.querySelector("#a");
 const bSide = document.querySelector("#b");
-const sortingActionsButtons = document.querySelectorAll(
-  "#form .form--sort-actions button"
-);
+const sortingActionsButtons = document.querySelectorAll("[data-value]");
 
 function displayList(values) {
   removeAllChildren(input);
@@ -77,10 +75,13 @@ startButton.addEventListener("click", async () => {
     const form = document.querySelector("#form");
     form.classList.remove("hidden");
 
-    const sorted = await bubbleSort(values);
-    values.reverse();
+    const [sorted, sortedValues] = await insertionSort(
+      values.concat(),
+      compareIsSuperior
+    );
+    sortedValues.reverse();
     form.classList.add("hidden");
-    displayList(values);
+    displayList(sortedValues);
 
     if (sorted) {
       alert("All done, your list is sorted");
@@ -103,9 +104,9 @@ sortingActionsButtons.forEach((sortingAction) => {
   });
 });
 
-function askUserForComparison(list, a, b) {
-  putContent(aSide, list[a]);
-  putContent(bSide, list[b]);
+function askUserForComparison(a, b) {
+  putContent(aSide, a);
+  putContent(bSide, b);
 
   return new Promise((resolve, reject) => {
     function answerHandler(event) {
@@ -136,58 +137,61 @@ function askUserForComparison(list, a, b) {
   });
 }
 
-async function compareIsSuperior(list, a, b) {
+async function compareIsSuperior(a, b) {
   try {
-    return getCachedAnswer(list[a], list[b]);
+    return getCachedAnswer(a, b);
   } catch (err) {
     if (!(err instanceof NoCachedValueError)) {
       throw err;
     }
 
-    const result = await askUserForComparison(list, a, b);
-    cacheAnswer(list[a], list[b], result);
+    const result = await askUserForComparison(a, b);
+    cacheAnswer(a, b, result);
     return result;
   }
 }
 
-function swap(list, a, b) {
-  const cache = list[b];
-  list[b] = list[a];
-  list[a] = cache;
-}
+async function insertionSort(originalList, compareFn) {
+  const queue = originalList.concat();
+  let sortedList = [queue.pop()];
 
-async function bubbleSort(list) {
-  let swapped;
+  while (queue.length) {
+    const itemToInsert = queue.pop();
 
-  do {
-    swapped = false;
+    let upperBound = sortedList.length;
+    let lowerBound = 0;
 
-    for (let i = 1; i < list.length; i++) {
-      let cmp;
+    while (upperBound !== lowerBound) {
+      const median = Math.floor((upperBound - lowerBound) / 2) + lowerBound;
 
       try {
-        cmp = await compareIsSuperior(list, i - 1, i);
+        const cmp = await compareFn(itemToInsert, sortedList[median]);
+
+        if (cmp === 0) {
+          upperBound = lowerBound = median;
+        } else if (cmp > 0) {
+          lowerBound = median + 1;
+        } else {
+          upperBound = median;
+        }
       } catch (err) {
         if (err instanceof ComparisonStopError) {
-          return false;
+          return [false, originalList];
         }
 
         if (err instanceof ComparisonUndoError) {
-          i = Math.max(0, i - 1);
+          i = Math.max(1, i - 1);
           continue;
         }
 
         throw err;
       }
-
-      if (cmp === 1) {
-        swap(list, i - 1, i);
-        swapped = true;
-      }
     }
-  } while (swapped);
 
-  return true;
+    sortedList.splice(upperBound, 0, itemToInsert);
+  }
+
+  return [true, sortedList];
 }
 
 function getContentElement(content) {
